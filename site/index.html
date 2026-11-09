@@ -1,284 +1,264 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang='ru'>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Palata 666 | Кредитный конвейер - Интерактивный симулятор</title>
-    <style>
-        :root {
-            --bg-color: #0f0f13;
-            --card-bg: #1a1a24;
-            --accent: #ff3366;
-            --accent-glow: rgba(255, 51, 102, 0.3);
-            --success: #00ff9d;
-            --warning: #ffcc00;
-            --text: #e0e0e0;
-            --text-muted: #8888aa;
-        }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
-        body { background-color: var(--bg-color); color: var(--text); padding: 2rem; min-height: 100vh; }
-        .container { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1.2fr; gap: 2rem; }
-        h1 { color: var(--accent); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 0.5rem; text-shadow: 0 0 15px var(--accent-glow); text-align: center; }
-        h2 { font-size: 1.1rem; margin-bottom: 1rem; color: var(--text-muted); border-bottom: 1px solid #333; padding-bottom: 0.5rem; }
-        
-        .card { background: var(--card-bg); border-radius: 12px; padding: 1.5rem; border: 1px solid #2a2a3a; box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
-        
-        .form-group { margin-bottom: 0.9rem; }
-        label { display: block; margin-bottom: 0.3rem; color: var(--text-muted); font-size: 0.85rem; }
-        input, select { width: 100%; padding: 0.7rem; background: #0f0f13; border: 1px solid #333; border-radius: 6px; color: white; font-size: 0.95rem; transition: 0.3s; }
-        input:focus, select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 8px var(--accent-glow); }
-        
-        .btn { width: 100%; padding: 0.9rem; background: var(--accent); color: white; border: none; border-radius: 6px; font-size: 1rem; font-weight: bold; cursor: pointer; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px; margin-top: 0.5rem; }
-        .btn:hover { background: #ff5580; box-shadow: 0 0 15px var(--accent-glow); }
-
-        .pipeline { display: flex; flex-direction: column; gap: 0.6rem; margin-top: 1rem; }
-        .step { display: flex; align-items: center; padding: 0.7rem; background: #0f0f13; border-radius: 6px; border-left: 4px solid #333; transition: 0.4s; opacity: 0.5; }
-        .step.active { border-left-color: var(--warning); opacity: 1; background: #2a2510; }
-        .step.pass { border-left-color: var(--success); opacity: 1; background: #0a2a1a; }
-        .step.fail { border-left-color: var(--accent); opacity: 1; background: #2a0a10; animation: pulse 0.5s; }
-        
-        .step-icon { width: 22px; height: 22px; margin-right: 0.8rem; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.9rem; }
-        .step-text { flex: 1; font-size: 0.9rem; }
-        .step-status { font-weight: bold; font-size: 0.8rem; min-width: 90px; text-align: right; }
-
-        .result-box { margin-top: 1.5rem; padding: 1.2rem; border-radius: 8px; text-align: center; display: none; }
-        .result-box.approved { background: rgba(0, 255, 157, 0.08); border: 1px solid var(--success); color: var(--success); }
-        .result-box.refused { background: rgba(255, 51, 102, 0.08); border: 1px solid var(--accent); color: var(--accent); }
-        .result-box.need_data { background: rgba(255, 204, 0, 0.08); border: 1px solid var(--warning); color: var(--warning); }
-
-        .score-display { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem; }
-        .score-item { background: #0f0f13; padding: 0.8rem; border-radius: 6px; text-align: center; border: 1px solid #2a2a3a; }
-        .score-value { font-size: 1.6rem; font-weight: bold; color: var(--accent); }
-        .score-label { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.2rem; }
-
-        .checkbox-group { display: flex; align-items: center; gap: 0.5rem; margin-top: 0.5rem; }
-        .checkbox-group input { width: auto; }
-        .checkbox-group label { margin: 0; cursor: pointer; font-size: 0.85rem; }
-
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
-        @media (max-width: 800px) { .container { grid-template-columns: 1fr; } }
-    </style>
+<meta charset='UTF-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<title>Палата№666 — кредитный конвейер</title>
+<style>
+:root{--bg:#f3f0ea;--paper:#fffdf8;--ink:#303632;--muted:#7c827a;--line:#e4ddcd;--sage:#7e9273;--sage-d:#5c7052;--sage-soft:#e9eee3;--clay:#b0836a;--clay-soft:#f4e8e0;--sand:#c2ab72;--sand-soft:#f6efdb;--r:18px}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:'Segoe UI',system-ui,-apple-system,sans-serif;line-height:1.55}
+h1,h2,h3,.brand{font-family:Georgia,'Times New Roman',serif;font-weight:600}
+header{position:sticky;top:0;z-index:10;background:rgba(255,253,248,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.nav{max-width:1180px;margin:0 auto;padding:.9rem 1.2rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
+.brand{font-size:1.35rem;color:var(--sage-d);letter-spacing:.5px}
+.brand small{display:block;font-family:'Segoe UI',sans-serif;font-size:.72rem;color:var(--muted);letter-spacing:2px;text-transform:uppercase}
+.nav a{color:var(--ink);text-decoration:none;font-size:.92rem;margin-left:1.1rem}
+.nav a:hover{color:var(--sage-d);text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:1.6rem 1.2rem 3rem}
+.hero{padding:2.2rem 0 1.4rem;max-width:760px}
+.hero h1{font-size:2.3rem;line-height:1.2;margin-bottom:.7rem}
+.hero p{color:var(--muted);font-size:1.02rem}
+.chips{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:1.1rem}
+.chip{background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:.35rem .85rem;font-size:.83rem;color:var(--sage-d)}
+.grid{display:grid;grid-template-columns:1fr 1.15fr;gap:1.4rem;align-items:start}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:1.5rem;box-shadow:0 6px 24px rgba(90,85,70,.06);margin-bottom:1.4rem}
+.card h2{font-size:1.25rem;margin-bottom:.4rem}
+.card .sub{color:var(--muted);font-size:.88rem;margin-bottom:1.1rem}
+.fg{margin-bottom:.95rem}
+.fg label{display:flex;justify-content:space-between;font-size:.87rem;color:var(--muted);margin-bottom:.3rem}
+.fg label output{color:var(--ink);font-weight:600}
+input[type=number],input[type=text],select{width:100%;padding:.62rem .75rem;border:1px solid var(--line);border-radius:10px;background:#fbf9f4;color:var(--ink);font-size:.95rem}
+input:focus,select:focus{outline:2px solid var(--sage-soft);border-color:var(--sage)}
+input[type=range]{width:100%;accent-color:var(--sage);margin-top:.35rem}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}
+.check{display:flex;gap:.55rem;align-items:center;font-size:.9rem;margin:.45rem 0;cursor:pointer}
+.check input{accent-color:var(--sage);width:17px;height:17px}
+.btn{width:100%;padding:.85rem;background:var(--sage-d);color:#fff;border:none;border-radius:12px;font-size:1rem;cursor:pointer;margin-top:.7rem}
+.btn:hover{background:var(--sage)}
+.btn.ghost{background:var(--paper);color:var(--sage-d);border:1px solid var(--sage);margin-top:.55rem}
+.live{display:grid;grid-template-columns:repeat(3,1fr);gap:.7rem;margin-top:1rem}
+.live div{background:var(--sage-soft);border-radius:12px;padding:.7rem;text-align:center}
+.live b{display:block;font-size:1.05rem}
+.live span{font-size:.73rem;color:var(--muted)}
+.pipeline{display:flex;flex-direction:column;gap:.5rem}
+.step{display:flex;align-items:center;gap:.75rem;padding:.62rem .8rem;border:1px solid var(--line);border-radius:12px;opacity:.55;transition:.3s;background:#fbf9f4}
+.step .n{width:26px;height:26px;border-radius:50%;background:var(--line);display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;flex:none}
+.step .t{flex:1;font-size:.92rem}
+.step .s{font-size:.8rem;font-weight:600;min-width:96px;text-align:right;color:var(--muted)}
+.step.active{opacity:1;border-color:var(--sand);background:var(--sand-soft)}
+.step.pass{opacity:1;border-color:var(--sage);background:var(--sage-soft)}
+.step.pass .n{background:var(--sage);color:#fff}
+.step.fail{opacity:1;border-color:var(--clay);background:var(--clay-soft)}
+.step.fail .n{background:var(--clay);color:#fff}
+.step.warn{opacity:1;border-color:var(--sand);background:var(--sand-soft)}
+.step.warn .n{background:var(--sand);color:#fff}
+.scorebars{margin-top:1.1rem}
+.sb{display:grid;grid-template-columns:110px 1fr 44px;gap:.6rem;align-items:center;font-size:.83rem;margin:.35rem 0;color:var(--muted)}
+.sb .track{height:8px;background:#efe9db;border-radius:99px;overflow:hidden}
+.sb .fill{height:100%;width:0;background:var(--sage);border-radius:99px;transition:width .5s}
+.sb .fill.neg{background:var(--clay)}
+.sb b{color:var(--ink);text-align:right}
+.result{display:none;margin-top:1.1rem;border-radius:14px;padding:1.1rem;text-align:center;border:1px solid}
+.result.approved{display:block;background:var(--sage-soft);border-color:var(--sage);color:var(--sage-d)}
+.result.refused{display:block;background:var(--clay-soft);border-color:var(--clay);color:#8a5a43}
+.result.need{display:block;background:var(--sand-soft);border-color:var(--sand);color:#7d683a}
+.result h3{font-size:1.3rem;margin-bottom:.3rem}
+.result .code{font-family:ui-monospace,monospace;font-size:.88rem}
+.result p{font-size:.9rem;margin-top:.45rem}
+pre{background:#333a35;color:#e8ede2;border-radius:12px;padding:1rem;font-size:.78rem;overflow:auto;margin-top:1rem;min-height:60px}
+.presets{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:.8rem}
+.preset{background:#fbf9f4;border:1px solid var(--line);border-radius:14px;padding:.9rem;cursor:pointer;text-align:left;font-size:.88rem;color:var(--ink)}
+.preset:hover{border-color:var(--sage);background:var(--sage-soft)}
+.preset b{display:block;margin-bottom:.2rem}
+.preset span{color:var(--muted);font-size:.8rem}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.8rem;margin-bottom:1rem}
+.stat{background:#fbf9f4;border:1px solid var(--line);border-radius:14px;padding:1rem;text-align:center}
+.stat b{display:block;font-size:1.7rem;font-family:Georgia,serif;color:var(--sage-d)}
+.stat span{font-size:.8rem;color:var(--muted)}
+.donutrow{display:grid;grid-template-columns:170px 1fr;gap:1.4rem;align-items:center}
+.donut{width:160px;height:160px;border-radius:50%;background:conic-gradient(var(--sage) 0 49%,var(--clay) 49% 99%,var(--sand) 99% 100%);display:flex;align-items:center;justify-content:center;margin:0 auto}
+.donut i{width:96px;height:96px;border-radius:50%;background:var(--paper);display:flex;align-items:center;justify-content:center;font-style:normal;font-family:Georgia,serif;font-size:1.25rem}
+.rb{display:grid;grid-template-columns:170px 1fr 34px;gap:.6rem;align-items:center;font-size:.83rem;margin:.4rem 0;color:var(--muted)}
+.rb .track{height:9px;background:#efe9db;border-radius:99px;overflow:hidden}
+.rb .fill{height:100%;background:var(--clay);border-radius:99px}
+.rb b{color:var(--ink);text-align:right}
+table{width:100%;border-collapse:collapse;font-size:.88rem}
+th,td{padding:.5rem .6rem;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{color:var(--muted);font-weight:600;font-size:.8rem}
+.reasons{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:.8rem}
+.reason{border:1px solid var(--line);border-radius:14px;padding:.95rem;background:#fbf9f4}
+.reason code{font-family:ui-monospace,monospace;font-size:.82rem;color:var(--sage-d);font-weight:700}
+.reason .cat{float:right;font-size:.72rem;background:var(--clay-soft);color:#8a5a43;border-radius:99px;padding:.15rem .55rem}
+.reason .cat.data{background:var(--sand-soft);color:#7d683a}
+.reason p{font-size:.86rem;color:var(--muted);margin-top:.45rem}
+footer{color:var(--muted);font-size:.83rem;text-align:center;padding:1.5rem 1rem 2.5rem}
+@media(max-width:860px){.grid{grid-template-columns:1fr}.donutrow{grid-template-columns:1fr}.hero h1{font-size:1.8rem}.live{grid-template-columns:1fr 1fr 1fr}}
+</style>
 </head>
 <body>
-    <div style="text-align: center; margin-bottom: 2rem;">
-        <h1>Palata 666</h1>
-        <p style="color: var(--text-muted); font-size: 0.9rem;">Интерактивный симулятор кредитного конвейера (Кейс-проект)</p>
-    </div>
-
-    <div class="container">
-        <div class="card">
-            <h2>📝 Параметры заявки</h2>
-            <div class="form-group">
-                <label>Возраст (18-70)</label>
-                <input type="number" id="age" value="30" min="16" max="75">
-            </div>
-            <div class="form-group">
-                <label>Ежемесячный доход (₽)</label>
-                <input type="number" id="income" value="80000" min="0" step="1000">
-            </div>
-            <div class="form-group">
-                <label>Сумма кредита (₽)</label>
-                <input type="number" id="amount" value="500000" min="10000" max="5000000" step="10000">
-            </div>
-            <div class="form-group">
-                <label>Срок (месяцев)</label>
-                <input type="number" id="term" value="24" min="3" max="60">
-            </div>
-            <div class="form-group">
-                <label>Занятость</label>
-                <select id="employment">
-                    <option value="employed">Наёмный работник</option>
-                    <option value="self-employed">Самозанятый</option>
-                    <option value="retired">Пенсионер</option>
-                    <option value="student">Студент</option>
-                    <option value="unemployed">Безработный</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>Семейное положение</label>
-                <select id="family">
-                    <option value="single">Холост / Не замужем</option>
-                    <option value="married">В браке</option>
-                    <option value="children">Есть дети</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>БКИ Рейтинг (300-850)</label>
-                <input type="number" id="bki_score" value="650" min="300" max="850">
-            </div>
-            <div class="checkbox-group">
-                <input type="checkbox" id="delinquency">
-                <label for="delinquency">Наличие текущей просрочки</label>
-            </div>
-            <div class="checkbox-group">
-                <input type="checkbox" id="smev_mismatch">
-                <label for="smev_mismatch">СМЭВ: Несоответствие данных (MISMATCH)</label>
-            </div>
-
-            <button class="btn" onclick="runPipeline()">🚀 Запустить конвейер</button>
-        </div>
-
-        <div class="card">
-            <h2>⚙️ Пайплайн принятия решения</h2>
-            <div class="pipeline" id="pipeline">
-                <div class="step" id="step-val"><div class="step-icon">1</div><div class="step-text">Валидация данных</div><div class="step-status">Ожидание</div></div>
-                <div class="step" id="step-smev"><div class="step-icon">2</div><div class="step-text">Проверка СМЭВ</div><div class="step-status">Ожидание</div></div>
-                <div class="step" id="step-bki"><div class="step-icon">3</div><div class="step-text">Запрос БКИ</div><div class="step-status">Ожидание</div></div>
-                <div class="step" id="step-score"><div class="step-icon">4</div><div class="step-text">Расчёт скоринга</div><div class="step-status">Ожидание</div></div>
-                <div class="step" id="step-dti"><div class="step-icon">5</div><div class="step-text">Расчёт DTI</div><div class="step-status">Ожидание</div></div>
-                <div class="step" id="step-rules"><div class="step-icon">6</div><div class="step-text">Применение правил отказа</div><div class="step-status">Ожидание</div></div>
-                <div class="step" id="step-decision"><div class="step-icon">7</div><div class="step-text">Финальное решение</div><div class="step-status">Ожидание</div></div>
-                <div class="step" id="step-audit"><div class="step-icon">8</div><div class="step-text">Аудит и логирование</div><div class="step-status">Ожидание</div></div>
-            </div>
-
-            <div class="score-display">
-                <div class="score-item">
-                    <div class="score-value" id="res-score">0</div>
-                    <div class="score-label">Итоговый балл</div>
-                </div>
-                <div class="score-item">
-                    <div class="score-value" id="res-dti">0%</div>
-                    <div class="score-label">DTI (Нагрузка)</div>
-                </div>
-            </div>
-
-            <div class="result-box" id="result-box">
-                <h3 id="res-decision" style="font-size: 1.3rem; margin-bottom: 0.5rem;"></h3>
-                <p id="res-reason" style="font-size: 0.95rem; opacity: 0.9; font-family: monospace;"></p>
-                <p id="res-explanation" style="font-size: 0.85rem; margin-top: 0.8rem; color: var(--text-muted); line-height: 1.4;"></p>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        function sleep(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
-
-        async function setStep(id, status) {
-            const el = document.getElementById(id);
-            el.className = 'step ' + status;
-            const statusEl = el.querySelector('.step-status');
-            if (status === 'pass') statusEl.textContent = '✓ Пройдено';
-            else if (status === 'fail') statusEl.textContent = '✗ Отказ';
-            else if (status === 'active') statusEl.textContent = '⟳ Проверка...';
-        }
-
-        async function runPipeline() {
-            document.querySelectorAll('.step').forEach(el => el.className = 'step');
-            document.getElementById('result-box').style.display = 'none';
-
-            const age = parseInt(document.getElementById('age').value) || 0;
-            const income = parseFloat(document.getElementById('income').value) || 0;
-            const amount = parseFloat(document.getElementById('amount').value) || 0;
-            const term = parseInt(document.getElementById('term').value) || 0;
-            const employment = document.getElementById('employment').value;
-            const family = document.getElementById('family').value;
-            const bkiScore = parseInt(document.getElementById('bki_score').value) || 0;
-            const delinquency = document.getElementById('delinquency').checked;
-            const smevMismatch = document.getElementById('smev_mismatch').checked;
-
-            // 1. Валидация
-            await setStep('step-val', 'active');
-            await sleep(400);
-            let valFail = null;
-            if (age < 18 || age > 70) valFail = "AGE_OUT_OF_RANGE";
-            else if (income <= 0) valFail = "INCOME_INVALID";
-            else if (!employment) valFail = "MISSING_EMPLOYMENT";
-            else if (!family) valFail = "MISSING_FAMILY";
-            else if (amount < 10000 || amount > 5000000) valFail = "AMOUNT_OUT_OF_RANGE";
-            else if (term < 3 || term > 60) valFail = "TERM_OUT_OF_RANGE";
-
-            if (valFail) {
-                await setStep('step-val', 'fail');
-                showResult('REFUSED', valFail, 'Заявка не прошла базовую валидацию форматов (Шаг 1).');
-                return;
-            }
-            await setStep('step-val', 'pass');
-
-            // 2. СМЭВ
-            await setStep('step-smev', 'active');
-            await sleep(500);
-            if (smevMismatch) {
-                await setStep('step-smev', 'fail');
-                showResult('REFUSED', 'SMEV_MISMATCH', 'Правило 8: Данные заявителя не совпадают с государственным реестром (СМЭВ).');
-                return;
-            }
-            await setStep('step-smev', 'pass');
-
-            // 3. БКИ
-            await setStep('step-bki', 'active');
-            await sleep(400);
-            await setStep('step-bki', 'pass');
-
-            // 4. Скоринг (логика из app.py)
-            await setStep('step-score', 'active');
-            await sleep(400);
-            let s_income = income >= 150000 ? 30 : income >= 80000 ? 20 : income >= 40000 ? 10 : 0;
-            let s_emp = {employed: 25, 'self-employed': 20, retired: 10, student: 5, unemployed: 0}[employment];
-            let s_age = (age >= 25 && age <= 50) ? 20 : ((age >= 18 && age <= 24) || (age >= 51 && age <= 60)) ? 10 : (age >= 61 && age <= 70) ? 5 : 0;
-            let s_family = {married: 15, children: 15, single: 10}[family];
-            let s_bki = delinquency || bkiScore < 500 ? -20 : bkiScore >= 700 ? 10 : bkiScore >= 600 ? 5 : 0;
-            
-            let totalScore = Math.max(0, s_income + s_emp + s_age + s_family + s_bki);
-            document.getElementById('res-score').textContent = totalScore;
-            await setStep('step-score', 'pass');
-
-            // 5. DTI (аннуитетная формула, ставка 20% годовых для эмуляции)
-            await setStep('step-dti', 'active');
-            await sleep(400);
-            const annualRate = 0.20;
-            const monthlyRate = annualRate / 12;
-            const monthlyPayment = amount * (monthlyRate * Math.pow(1 + monthlyRate, term)) / (Math.pow(1 + monthlyRate, term) - 1);
-            const dti = income > 0 ? (monthlyPayment / income) : 1.0;
-            document.getElementById('res-dti').textContent = (dti * 100).toFixed(1) + '%';
-            await setStep('step-dti', 'pass');
-
-            // 6. Правила отказа (строго по порядку из app.py -> decide)
-            await setStep('step-rules', 'active');
-            await sleep(600);
-            let decision = 'APPROVED';
-            let reason = '';
-            let explanation = '';
-
-            if (employment === 'unemployed') { decision = 'REFUSED'; reason = 'INVALID_EMPLOYMENT'; explanation = 'Правило 2: Заявки от безработных отклоняются.'; }
-            else if (income < 30000) { decision = 'REFUSED'; reason = 'LOW_INCOME'; explanation = 'Правило 4: Доход ниже минимального порога (30 000 ₽).'; }
-            else if (dti > 0.5) { decision = 'REFUSED'; reason = 'HIGH_DTI'; explanation = `Правило 5: Долговая нагрузка слишком высока (${(dti*100).toFixed(1)}% > 50%).`; }
-            else if (bkiScore < 500 || delinquency) { decision = 'REFUSED'; reason = 'BKI_DELINQUENCY'; explanation = 'Правило 6: Низкий рейтинг БКИ или наличие просрочки.'; }
-            else if (amount > 10 * income) { decision = 'REFUSED'; reason = 'AMOUNT_LIMIT'; explanation = `Правило 7: Сумма кредита превышает 10 ежемесячных доходов (${(amount/1000).toFixed(0)}k > ${(income*10/1000).toFixed(0)}k).`; }
-            else if (smevMismatch) { decision = 'REFUSED'; reason = 'SMEV_MISMATCH'; explanation = 'Правило 8: Данные не совпадают с СМЭВ.'; }
-            else if (totalScore < 60) { decision = 'REFUSED'; reason = 'LOW_SCORE'; explanation = `Правило 9: Итоговый скоринговый балл (${totalScore}) ниже минимального порога (60).`; }
-
-            if (decision === 'REFUSED') {
-                await setStep('step-rules', 'fail');
-                showResult(decision, reason, explanation);
-                return;
-            }
-            await setStep('step-rules', 'pass');
-
-            // 7. Решение
-            await setStep('step-decision', 'active');
-            await sleep(400);
-            await setStep('step-decision', 'pass');
-            
-            // 8. Аудит
-            await setStep('step-audit', 'active');
-            await sleep(400);
-            await setStep('step-audit', 'pass');
-
-            showResult('APPROVED', 'SUCCESS', 'Поздравляем! Заявка одобрена. Все 8 шагов конвейера пройдены успешно.');
-        }
-
-        function showResult(decision, reason, explanation) {
-            const box = document.getElementById('result-box');
-            const decEl = document.getElementById('res-decision');
-            const reasonEl = document.getElementById('res-reason');
-            const expEl = document.getElementById('res-explanation');
-
-            box.className = 'result-box ' + (decision === 'APPROVED' ? 'approved' : decision === 'REFUSED' ? 'refused' : 'need_data');
-            decEl.textContent = decision === 'APPROVED' ? '✓ ОДОБРЕНО' : decision === 'REFUSED' ? '✗ ОТКАЗАНО' : '⚠ НУЖНЫ ДАННЫЕ';
-            reasonEl.textContent = `Код причины: ${reason}`;
-            expEl.textContent = explanation;
-            box.style.display = 'block';
-        }
-    </script>
+<header><div class='nav'><div class='brand'>Палата№666<small>кредитный конвейер · кейс 2</small></div><nav><a href='#sim'>Симулятор</a><a href='#presets'>Сценарии</a><a href='#stats'>Статистика</a><a href='#rules'>Правила</a><a href='#reasons'>Причины</a><a href='#audit'>Аудит</a></nav></div></header>
+<div class='wrap'>
+<section class='hero'><h1>Решение по кредиту — спокойно, быстро и объяснимо</h1><p>Заявка проходит восемь шагов: валидация, СМЭВ, БКИ, скоринг, лимиты, правила отказа, решение и аудит. Каждое решение можно объяснить одним кодом причины и человеческим текстом для клиента.</p><div class='chips'><span class='chip'>Продукт prod_standard</span><span class='chip'>Ставка 18% годовых</span><span class='chip'>Сумма 10 000 – 1 000 000 ₽</span><span class='chip'>Порог score — 60</span><span class='chip'>DTI не выше 0,50</span><span class='chip'>Сумма не выше 10 доходов</span></div></section>
+<div class='grid' id='sim'>
+<div class='card'><h2>Параметры заявки</h2><p class='sub'>Ползунки и поля связаны: платёж и нагрузка пересчитываются сразу, без запуска конвейера.</p>
+<div class='fg'><label>ID заявки</label><input type='text' id='appId' value='app_0001'></div>
+<div class='fg'><label>Возраст, 18–70 <output id='ageO'>32</output></label><input type='number' id='age' value='32' min='16' max='75'><input type='range' id='ageR' min='16' max='75' value='32'></div>
+<div class='fg'><label>Ежемесячный доход, ₽ <output id='incomeO'>120 000</output></label><input type='number' id='income' value='120000' min='0' step='1000'><input type='range' id='incomeR' min='0' max='200000' step='5000' value='120000'></div>
+<div class='fg'><label>Сумма кредита, ₽ <output id='amountO'>500 000</output></label><input type='number' id='amount' value='500000' min='10000' max='1000000' step='10000'><input type='range' id='amountR' min='10000' max='1000000' step='10000' value='500000'></div>
+<div class='fg'><label>Срок, месяцев <output id='termO'>24</output></label><input type='number' id='term' value='24' min='3' max='60'><input type='range' id='termR' min='3' max='60' value='24'></div>
+<div class='row2'><div class='fg'><label>Занятость</label><select id='employment'><option value='employed'>Наёмный работник</option><option value='self-employed'>Самозанятый</option><option value='retired'>Пенсионер</option><option value='student'>Студент</option><option value='unemployed'>Безработный</option></select></div>
+<div class='fg'><label>Семейное положение</label><select id='family'><option value='single'>Холост / не замужем</option><option value='married' selected>В браке</option><option value='children'>Есть дети</option></select></div></div>
+<div class='fg'><label>Рейтинг БКИ, 300–850 <output id='bkiO'>720</output></label><input type='number' id='bki' value='720' min='300' max='850'><input type='range' id='bkiR' min='300' max='850' step='5' value='720'></div>
+<div class='fg'><label>Проверка СМЭВ</label><select id='smev'><option value='MATCH'>MATCH — данные совпали</option><option value='MISMATCH'>MISMATCH — данные не совпали</option><option value='TIMEOUT'>TIMEOUT — сервис не ответил</option></select></div>
+<label class='check'><input type='checkbox' id='delinq'> Есть текущая просрочка по кредитам</label>
+<button class='btn' onclick='runPipeline()'>Запустить конвейер</button>
+<button class='btn ghost' onclick='loadPreset(presetT21,false)'>Сбросить к примеру app_0001</button>
+<div class='live'><div><b id='payLive'>—</b><span>платёж в месяц</span></div><div><b id='dtiLive'>—</b><span>DTI, порог 50%</span></div><div><b id='maxLive'>—</b><span>макс. сумма, 10 доходов</span></div></div></div>
+<div class='card'><h2>Конвейер решения</h2><p class='sub'>Порядок шагов — по эталону 07, правила отказа — строго в порядке app.py: первое сработавшее правило финально.</p>
+<div class='pipeline'>
+<div class='step' id='st-val'><span class='n'>1</span><span class='t'>Валидация данных</span><span class='s'>Ожидание</span></div>
+<div class='step' id='st-smev'><span class='n'>2</span><span class='t'>Проверка СМЭВ</span><span class='s'>Ожидание</span></div>
+<div class='step' id='st-bki'><span class='n'>3</span><span class='t'>Запрос в БКИ</span><span class='s'>Ожидание</span></div>
+<div class='step' id='st-score'><span class='n'>4</span><span class='t'>Скоринг по 5 признакам</span><span class='s'>Ожидание</span></div>
+<div class='step' id='st-dti'><span class='n'>5</span><span class='t'>Лимиты: DTI и сумма к доходу</span><span class='s'>Ожидание</span></div>
+<div class='step' id='st-rules'><span class='n'>6</span><span class='t'>Правила отказа, №1–№10</span><span class='s'>Ожидание</span></div>
+<div class='step' id='st-dec'><span class='n'>7</span><span class='t'>Финальное решение</span><span class='s'>Ожидание</span></div>
+<div class='step' id='st-audit'><span class='n'>8</span><span class='t'>Запись в аудит</span><span class='s'>Ожидание</span></div>
+</div>
+<div class='scorebars'>
+<div class='sb'><span>Доход, до 30</span><div class='track'><div class='fill' id='bar-income'></div></div><b id='v-income'>0</b></div>
+<div class='sb'><span>Занятость, до 25</span><div class='track'><div class='fill' id='bar-emp'></div></div><b id='v-emp'>0</b></div>
+<div class='sb'><span>Возраст, до 20</span><div class='track'><div class='fill' id='bar-age'></div></div><b id='v-age'>0</b></div>
+<div class='sb'><span>Семья, до 15</span><div class='track'><div class='fill' id='bar-fam'></div></div><b id='v-fam'>0</b></div>
+<div class='sb'><span>БКИ, до 10</span><div class='track'><div class='fill' id='bar-bki'></div></div><b id='v-bki'>0</b></div>
+<div class='sb'><span><b>Итого</b></span><div class='track'><div class='fill' id='bar-total'></div></div><b id='v-total'>0 / 100</b></div>
+</div>
+<div class='result' id='resultBox'><h3 id='resTitle'></h3><div class='code' id='resCode'></div><p id='resText'></p></div>
+<pre id='jsonOut'>Здесь появится JSON решения в формате схемы Decision из 05_api_schemas.yaml.</pre>
+<button class='btn ghost' onclick='copyJson()'>Скопировать JSON решения</button>
+</div></div>
+<div class='card' id='presets'><h2>Готовые сценарии из тестов T2-1…T2-6</h2><p class='sub'>Один клик заполняет форму реальными заявками из applications.csv и запускает конвейер. Ожидаемый факт — из 03_test_scenarios.md и tests.log: 6 из 6 пройдено.</p><div class='presets'>
+<button class='preset' onclick='loadPreset(presetT21,true)'><b>T2-1 · app_0001</b><span>Одобрение: score 90, DTI 0,21</span></button>
+<button class='preset' onclick='loadPreset(presetT22,true)'><b>T2-2 · app_0006</b><span>Отказ по БКИ: BKI_DELINQUENCY, score 35</span></button>
+<button class='preset' onclick='loadPreset(presetT23,true)'><b>T2-3 · app_0004</b><span>Неполные данные: MISSING_INCOME</span></button>
+<button class='preset' onclick='loadPreset(presetT24,true)'><b>T2-4 · app_0002</b><span>Низкий доход: LOW_INCOME, score 25</span></button>
+<button class='preset' onclick='loadPreset(presetT25,true)'><b>T2-5 · app_0005</b><span>Лимит суммы: AMOUNT_LIMIT, score 65</span></button>
+<button class='preset' onclick='loadPreset(presetT26,true)'><b>T2-6 · app_0023</b><span>Высокая нагрузка: HIGH_DTI, DTI 2,06</span></button>
+</div></div>
+<div class='card' id='stats'><h2>Пакетный прогон: 100 заявок</h2><p class='sub'>Фактические итоги app.py по applications.csv, файл decisions.csv. Средний score — 66,5, диапазон 25–100.</p>
+<div class='stats'><div class='stat'><b>100</b><span>заявок обработано</span></div><div class='stat'><b>49</b><span>одобрено</span></div><div class='stat'><b>50</b><span>отказано</span></div><div class='stat'><b>1</b><span>нужны данные</span></div><div class='stat'><b>6 / 6</b><span>тестов T2 пройдено</span></div></div>
+<div class='donutrow'><div class='donut'><i>100</i></div><div>
+<div class='rb'><span>INVALID_EMPLOYMENT</span><div class='track'><div class='fill' style='width:100%'></div></div><b>18</b></div>
+<div class='rb'><span>HIGH_DTI</span><div class='track'><div class='fill' style='width:67%'></div></div><b>12</b></div>
+<div class='rb'><span>LOW_SCORE</span><div class='track'><div class='fill' style='width:33%'></div></div><b>6</b></div>
+<div class='rb'><span>SMEV_MISMATCH</span><div class='track'><div class='fill' style='width:33%'></div></div><b>6</b></div>
+<div class='rb'><span>AMOUNT_LIMIT</span><div class='track'><div class='fill' style='width:28%'></div></div><b>5</b></div>
+<div class='rb'><span>LOW_INCOME · AGE_OUT_OF_RANGE · BKI_DELINQUENCY · MISSING_INCOME</span><div class='track'><div class='fill' style='width:6%'></div></div><b>по 1</b></div>
+<p style='color:var(--muted);font-size:.85rem;margin-top:.6rem'>Кольцо слева: одобрено 49%, отказано 50%, нужны данные 1%. Самая частая причина отказа — занятость: 18 заявок от безработных отклоняет правило №2.</p></div></div></div>
+<div class='grid' id='rules'><div class='card'><h2>Веса скоринга</h2><p class='sub'>Сумма пяти признаков, максимум 100, порог одобрения — 60. Пол и национальность в модели нет намеренно, NFR-05.</p><table>
+<tr><th>Признак</th><th>Условие</th><th>Баллы</th></tr>
+<tr><td>Доход</td><td>от 150 000 / 80 000 / 40 000 ₽</td><td>30 / 20 / 10 / 0</td></tr>
+<tr><td>Занятость</td><td>наёмный / самозанятый / пенсионер / студент / безработный</td><td>25 / 20 / 10 / 5 / 0</td></tr>
+<tr><td>Возраст</td><td>25–50 / 18–24 и 51–60 / 61–70</td><td>20 / 10 / 5</td></tr>
+<tr><td>Семья</td><td>в браке / есть дети / холост</td><td>15 / 15 / 10</td></tr>
+<tr><td>БКИ</td><td>от 700 / 600–699 / 500–599 / ниже 500 или просрочка</td><td>10 / 5 / 0 / −20</td></tr></table>
+<p style='margin-top:.9rem;color:var(--muted);font-size:.87rem'>DTI считается по аннуитету: платёж = сумма × 0,015 / (1 − 1,015 в степени минус срок), DTI = платёж / доход, округление до двух знаков.</p></div>
+<div class='card'><h2>Правила отказа по порядку</h2><p class='sub'>Проверяются сверху вниз. Первое сработавшее — финальное: например, у app_0002 DTI 0,72, но LOW_INCOME стоит раньше HIGH_DTI.</p><table>
+<tr><th>№</th><th>Условие</th><th>Решение</th><th>Код</th></tr>
+<tr><td>1</td><td>Возраст младше 18 или старше 70</td><td>Отказ</td><td>AGE_OUT_OF_RANGE</td></tr>
+<tr><td>2</td><td>Безработный</td><td>Отказ</td><td>INVALID_EMPLOYMENT</td></tr>
+<tr><td>3</td><td>Доход не указан</td><td>Нужны данные</td><td>MISSING_INCOME</td></tr>
+<tr><td>4</td><td>Доход ниже 30 000 ₽</td><td>Отказ</td><td>LOW_INCOME</td></tr>
+<tr><td>5</td><td>DTI выше 0,50</td><td>Отказ</td><td>HIGH_DTI</td></tr>
+<tr><td>6</td><td>БКИ ниже 500 или просрочка</td><td>Отказ</td><td>BKI_DELINQUENCY</td></tr>
+<tr><td>7</td><td>Сумма выше 10 доходов</td><td>Отказ</td><td>AMOUNT_LIMIT</td></tr>
+<tr><td>8</td><td>СМЭВ: MISMATCH</td><td>Отказ</td><td>SMEV_MISMATCH</td></tr>
+<tr><td>9</td><td>Score ниже 60</td><td>Отказ</td><td>LOW_SCORE</td></tr>
+<tr><td>10</td><td>Всё пройдено</td><td>Одобрено</td><td>—</td></tr></table></div></div>
+<div class='card' id='reasons'><h2>Что видит клиент</h2><p class='sub'>Каталог причин из 08_reasons_sdel.md: машинный код хранится в решении, клиенту показывается только человеческий текст.</p><div class='reasons'>
+<div class='reason'><span class='cat'>Отказ</span><code>LOW_INCOME</code><p>Недостаточный доход для данного продукта.</p></div>
+<div class='reason'><span class='cat'>Отказ</span><code>AGE_OUT_OF_RANGE</code><p>Возраст не соответствует условиям продукта.</p></div>
+<div class='reason'><span class='cat'>Отказ</span><code>INVALID_EMPLOYMENT</code><p>Извините, но мы не можем одобрить кредит безработным.</p></div>
+<div class='reason'><span class='cat data'>Нужны данные</span><code>MISSING_INCOME</code><p>Вы не указали доход, пожалуйста, заполните это поле.</p></div>
+<div class='reason'><span class='cat'>Отказ</span><code>HIGH_DTI</code><p>У вас слишком много действующих кредитов, мы не сможем выдать новый.</p></div>
+<div class='reason'><span class='cat'>Отказ</span><code>BKI_DELINQUENCY</code><p>У вас есть просрочки по прошлым кредитам, поэтому мы вынуждены вам отказать.</p></div>
+<div class='reason'><span class='cat'>Отказ</span><code>SMEV_MISMATCH</code><p>Ваши данные не совпали с базой данных, пожалуйста, обратитесь в отделение банка.</p></div>
+<div class='reason'><span class='cat'>Отказ</span><code>AMOUNT_LIMIT</code><p>Сумма кредита слишком большая для вашей заработной платы, нужно уменьшить желаемую сумму.</p></div>
+<div class='reason'><span class='cat'>Отказ</span><code>LOW_SCORE</code><p>Итоговая оценка заявки ниже требуемого порога, мы не можем одобрить кредит.</p></div>
+<div class='reason'><span class='cat data'>Нужны данные</span><code>EXTERNAL_TIMEOUT</code><p>Госуслуги сейчас не отвечают, мы не можем проверить данные, попробуйте позже.</p></div>
+</div></div>
+<div class='card' id='audit'><h2>Аудит и безопасность</h2><p class='sub'>Каждое решение пишется в неизменяемый журнал из восьми полей по ИБ.md. Оригинал паспорта и номер карты не хранятся никогда: только хэш паспорта из 16 hex-символов, а доход в логах маскируется. Если БКИ или СМЭВ не ответили за 3 секунды и после повтора, конвейер не одобряет наугад, а возвращает NEED_MORE_DATA.</p>
+<table><thead><tr><th>event_id</th><th>app_id</th><th>action</th><th>decision</th><th>reason</th><th>score</th><th>actor</th><th>at, UTC</th></tr></thead><tbody id='auditBody'><tr><td colspan='8' style='color:var(--muted)'>Запустите конвейер — здесь появится запись о решении.</td></tr></tbody></table></div>
+</div>
+<footer>Палата№666 · кредитный конвейер, кейс 2. Логика фронта повторяет app.py и эталон 07_decision_mechanism.md; расхождения с разметкой applications.csv разобраны в CHANGES_architect.md.</footer>
+<script>
+const $=id=>document.getElementById(id);
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const fmt=n=>Math.round(n).toLocaleString('ru-RU')+' ₽';
+const num=id=>{const v=parseFloat($(id).value);return isNaN(v)?null:v};
+const REASONS={AGE_OUT_OF_RANGE:'Возраст не соответствует условиям продукта',INVALID_EMPLOYMENT:'Извините, но мы не можем одобрить кредит безработным',MISSING_INCOME:'Вы не указали доход, пожалуйста, заполните это поле',LOW_INCOME:'Недостаточный доход для данного продукта',HIGH_DTI:'Слишком высокая долговая нагрузка: платёж занимает больше половины дохода',BKI_DELINQUENCY:'Есть просрочки в кредитной истории',AMOUNT_LIMIT:'Сумма кредита слишком большая для вашей заработной платы',SMEV_MISMATCH:'Данные не совпали при проверке, обратитесь в банк',LOW_SCORE:'Итоговая оценка заявки ниже требуемого порога 60',EXTERNAL_TIMEOUT:'Не удалось проверить данные, попробуйте позже',AMOUNT_OUT_OF_RANGE:'Сумма вне диапазона продукта: от 10 000 до 1 000 000 ₽',TERM_OUT_OF_RANGE:'Срок вне диапазона продукта: от 3 до 60 месяцев',BKI_SCORE_INVALID:'Рейтинг БКИ вне диапазона 300–850'};
+const presetT21={app:'app_0001',age:32,income:120000,emp:'employed',fam:'married',amount:500000,term:24,bki:720,del:false,smev:'MATCH'};
+const presetT22={app:'app_0006',age:52,income:90000,emp:'retired',fam:'married',amount:400000,term:24,bki:480,del:false,smev:'MATCH'};
+const presetT23={app:'app_0004',age:'',income:'',emp:'employed',fam:'single',amount:200000,term:12,bki:'',del:false,smev:'MATCH'};
+const presetT24={app:'app_0002',age:19,income:15000,emp:'student',fam:'single',amount:300000,term:36,bki:540,del:false,smev:'MATCH'};
+const presetT25={app:'app_0005',age:28,income:60000,emp:'self-employed',fam:'single',amount:800000,term:48,bki:610,del:false,smev:'MATCH'};
+const presetT26={app:'app_0023',age:47,income:40000,emp:'employed',fam:'married',amount:900000,term:12,bki:630,del:false,smev:'MATCH'};
+function syncPair(n,r,o){const a=$(n),b=$(r);const upd=()=>{if(o)$(o).textContent=a.value===''? '—':Number(a.value).toLocaleString('ru-RU');live()};a.addEventListener('input',()=>{b.value=a.value;upd()});b.addEventListener('input',()=>{a.value=b.value;upd()});upd()}
+function payment(amount,term){const mr=0.18/12;return amount*mr/(1-Math.pow(1+mr,-term))}
+function live(){const inc=num('income'),amt=num('amount'),trm=num('term');if(inc&&amt&&trm){const p=payment(amt,trm);$('payLive').textContent=fmt(p);$('dtiLive').textContent=(p/inc*100).toFixed(1)+'%';$('maxLive').textContent=fmt(inc*10)}else{$('payLive').textContent='—';$('dtiLive').textContent='—';$('maxLive').textContent=inc?fmt(inc*10):'—'}}
+function loadPreset(p,run){$('appId').value=p.app;$('age').value=p.age;$('ageR').value=p.age||16;$('ageO').textContent=p.age===''? '—':p.age;$('income').value=p.income;$('incomeR').value=p.income||0;$('incomeO').textContent=p.income===''? '—':Number(p.income).toLocaleString('ru-RU');$('amount').value=p.amount;$('amountR').value=p.amount;$('amountO').textContent=Number(p.amount).toLocaleString('ru-RU');$('term').value=p.term;$('termR').value=p.term;$('termO').textContent=p.term;$('employment').value=p.emp;$('family').value=p.fam;$('bki').value=p.bki;$('bkiR').value=p.bki||300;$('bkiO').textContent=p.bki===''? '—':p.bki;$('delinq').checked=p.del;$('smev').value=p.smev;live();document.getElementById('sim').scrollIntoView({behavior:'smooth'});if(run)runPipeline()}
+function setStep(id,st,txt){const el=$(id);el.className='step '+st;el.querySelector('.s').textContent=txt}
+function resetSteps(){['st-val','st-smev','st-bki','st-score','st-dti','st-rules','st-dec','st-audit'].forEach(id=>setStep(id,'','Ожидание'));$('resultBox').className='result';['income','emp','age','fam','bki'].forEach(k=>{$('bar-'+k).style.width='0';$('v-'+k).textContent='0'});$('bar-total').style.width='0';$('v-total').textContent='0 / 100'}
+function showResult(dec,reason,score,dti,extra){const box=$('resultBox');box.className='result '+(dec==='APPROVED'?'approved':dec==='REFUSED'?'refused':'need');$('resTitle').textContent=dec==='APPROVED'?'Одобрено':dec==='REFUSED'?'Отказано':'Нужны данные';$('resCode').textContent=reason?('Код причины: '+reason):'Все правила пройдены';$('resText').textContent=reason?REASONS[reason]:'Заявка одобрена на запрошенную сумму и срок по ставке 18% годовых.';const out={app_id:$('appId').value||'app_0001',decision:dec,reason:reason||'',score:score,dti:dti,amount_approved:dec==='APPROVED'?num('amount'):null,term_approved:dec==='APPROVED'?num('term'):null,rate:dec==='APPROVED'?0.18:null};if(extra)Object.assign(out,extra);$('jsonOut').textContent=JSON.stringify(out,null,2);setStep('st-dec','pass',dec);setStep('st-audit','pass','Записано');const tr=document.createElement('tr');const cells=[$('appId').value||'app_0001'];tr.innerHTML='';const vals=['evt_'+Math.floor(1000+Math.random()*9000),cells[0],'decision_made',dec,reason||'—',score===null?'—':score,'system',new Date().toISOString().slice(0,19)+'Z'];const body=$('auditBody');if(body.querySelector('td[colspan]'))body.innerHTML='';vals.forEach(v=>{const td=document.createElement('td');td.textContent=v;tr.appendChild(td)});body.prepend(tr)}
+async function failAt(id,dec,reason,score,dti){setStep(id,dec==='REFUSED'?'fail':'warn',dec);showResult(dec,reason,score===undefined?null:score,dti===undefined?null:dti)}
+async function runPipeline(){resetSteps();const age=num('age'),income=num('income'),amount=num('amount'),term=num('term'),emp=$('employment').value,fam=$('family').value,bki=num('bki'),del=$('delinq').checked,smev=$('smev').value;
+setStep('st-val','active','Проверка...');await sleep(350);
+if(income===null){if(age!==null&&(age<18||age>70))return failAt('st-val','REFUSED','AGE_OUT_OF_RANGE');if(emp==='unemployed')return failAt('st-val','REFUSED','INVALID_EMPLOYMENT');return failAt('st-val','NEED_MORE_DATA','MISSING_INCOME')}
+if(age===null||amount===null||term===null)return failAt('st-val','NEED_MORE_DATA','MISSING_INCOME');
+if(age<18||age>70)return failAt('st-val','REFUSED','AGE_OUT_OF_RANGE');
+if(amount<10000||amount>1000000)return failAt('st-val','REFUSED','AMOUNT_OUT_OF_RANGE');
+if(term<3||term>60)return failAt('st-val','REFUSED','TERM_OUT_OF_RANGE');
+if(bki!==null&&(bki<300||bki>850))return failAt('st-val','REFUSED','BKI_SCORE_INVALID');
+setStep('st-val','pass','Пройдено');
+setStep('st-smev','active','Запрос...');await sleep(400);
+if(smev==='TIMEOUT')return failAt('st-smev','NEED_MORE_DATA','EXTERNAL_TIMEOUT');
+setStep('st-smev',smev==='MISMATCH'?'warn':'pass',smev);
+setStep('st-bki','active','Запрос...');await sleep(400);
+const bkiEff=bki===null?650:bki;setStep('st-bki','pass','Score '+bkiEff);
+setStep('st-score','active','Расчёт...');await sleep(350);
+const sI=income>=150000?30:income>=80000?20:income>=40000?10:0;
+const sE={'employed':25,'self-employed':20,'retired':10,'student':5,'unemployed':0}[emp];
+const sA=(age>=25&&age<=50)?20:((age>=18&&age<=24)||(age>=51&&age<=60))?10:5;
+const sF={'married':15,'children':15,'single':10}[fam];
+const delEff=del||(bki!==null&&bki<500);
+const sB=delEff||bkiEff<500?-20:bkiEff>=700?10:bkiEff>=600?5:0;
+const total=Math.max(0,sI+sE+sA+sF+sB);
+$('bar-income').style.width=(sI/30*100)+'%';$('v-income').textContent=sI;
+$('bar-emp').style.width=(sE/25*100)+'%';$('v-emp').textContent=sE;
+$('bar-age').style.width=(sA/20*100)+'%';$('v-age').textContent=sA;
+$('bar-fam').style.width=(sF/15*100)+'%';$('v-fam').textContent=sF;
+$('bar-bki').style.width=Math.max(0,sB/10*100)+'%';$('bar-bki').className='fill'+(sB<0?' neg':'');$('v-bki').textContent=sB;
+$('bar-total').style.width=total+'%';$('v-total').textContent=total+' / 100';
+setStep('st-score','pass',total+' баллов');
+setStep('st-dti','active','Расчёт...');await sleep(350);
+const dti=Math.round(payment(amount,term)/income*100)/100;setStep('st-dti',dti>0.5?'warn':'pass','DTI '+dti.toFixed(2));
+setStep('st-rules','active','Проверка...');await sleep(450);
+let reason='';
+if(emp==='unemployed')reason='INVALID_EMPLOYMENT';
+else if(income<30000)reason='LOW_INCOME';
+else if(dti>0.5)reason='HIGH_DTI';
+else if(bkiEff<500||delEff)reason='BKI_DELINQUENCY';
+else if(amount>10*income)reason='AMOUNT_LIMIT';
+else if(smev==='MISMATCH')reason='SMEV_MISMATCH';
+else if(total<60)reason='LOW_SCORE';
+setStep('st-dec','active','Формируем...');await sleep(300);
+if(reason){setStep('st-rules','fail',reason);showResult('REFUSED',reason,total,dti,{bki:{score:bkiEff,delinquency:delEff},smev:smev})}
+else{setStep('st-rules','pass','Пройдено');showResult('APPROVED','',total,dti,{bki:{score:bkiEff,delinquency:delEff},smev:smev})}
+setStep('st-audit','pass','Записано')}
+function copyJson(){if(navigator.clipboard)navigator.clipboard.writeText($('jsonOut').textContent)}
+syncPair('age','ageR','ageO');syncPair('income','incomeR','incomeO');syncPair('amount','amountR','amountO');syncPair('term','termR','termO');syncPair('bki','bkiR','bkiO');live();
+</script>
 </body>
 </html>
